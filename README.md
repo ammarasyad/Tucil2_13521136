@@ -5,7 +5,13 @@ Program ini dibuat untuk memenuhi tugas kecil 2 mata kuliah IF2211 Strategi Algo
 
 Requirement
 -----
-- Linux (tidak akan bisa dijalankan di Windows)
+- Windows or Linux
+- GNUPlot 5.6.4
 
 Cara Penggunaan
 -----
+1. Install GNUPlot (pastikan ditambahkan ke PATH)
+2. Jalankan exe
+3. Masukkan sesuai input yang diminta
+4. Hasil akan ditampilkan di terminal
+5. Jika 3D maka bisa pilih untuk menampilkan plot atau tidak
