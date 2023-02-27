@@ -5,6 +5,13 @@
 #include <fstream>
 #include "plot.h"
 
+/**
+ * Saves the given points to a file
+ * @param filename
+ * @param points
+ * @param p1
+ * @param p2
+ */
 void saveToFile(const string& filename, const vector<Point>& points, const Point& p1, const Point& p2) {
     ofstream file(filename);
     for (const Point& point : points) {
@@ -17,12 +24,14 @@ void saveToFile(const string& filename, const vector<Point>& points, const Point
             file << 0;
         }
         file << endl;
-//        file << point.getCoordinate(0) << " " << point.getCoordinate(1) << endl;
     }
     file.close();
 }
 
-// GNUPlot
+/**
+ * Starts plotting the points in the given file
+ * @param file
+ */
 void startPlot(const string& file = "points.txt") {
     cout << "Plotting..." << endl;
     FILE* pipe = popen("gnuplot -persist", "w");

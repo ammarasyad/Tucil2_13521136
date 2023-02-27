@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const int LEAF_SIZE = 64; // leaf size for divide and conquer, increase for more operations but less time, most optimal in my testing is 64
+const int LEAF_SIZE = 64; // leaf size for divide and conquer, increase for more operations but slower, most optimal in my testing is 64
 
 inline bool compareX(const Point& p1, const Point& p2, bool equals) {
     return equals ? p1.getCoordinate(0) <= p2.getCoordinate(0) : p1.getCoordinate(0) < p2.getCoordinate(0);
@@ -18,6 +18,11 @@ inline bool compareY(const Point& p1, const Point& p2, bool equals) {
     return equals ? p1.getCoordinate(1) <= p2.getCoordinate(1) : p1.getCoordinate(1) < p2.getCoordinate(1);
 }
 
+/**
+ * @brief Brute force algorithm to find the closest pair of points
+ * @param points
+ * @return Closest pair of points
+ */
 Tuple<Point, Point> bruteForce(const vector<Point>& points) {
     double minDist = dist(points[0], points[1]);
     Point p1 = points[0];
@@ -35,6 +40,11 @@ Tuple<Point, Point> bruteForce(const vector<Point>& points) {
     return {p1, p2};
 }
 
+/**
+ * @brief Helper function for DnC
+ * @param points
+ * @return Closest pair of points
+ */
 Tuple<Point, Point> divAndConHelper(vector<Point>& points) {
     if (points.size() <= LEAF_SIZE) {
         return bruteForce(points);
@@ -84,6 +94,11 @@ Tuple<Point, Point> divAndConHelper(vector<Point>& points) {
     return {p5, p6};
 }
 
+/**
+ * @brief Divide and conquer algorithm to find the closest pair of points
+ * @param points
+ * @return Closest pair of points
+ */
 Tuple<Point, Point> divideAndConquer(vector<Point>& points) {
     quickSort(points, 0, points.size() - 1, compareX);
 //    timsort(points, compareX);
@@ -91,7 +106,9 @@ Tuple<Point, Point> divideAndConquer(vector<Point>& points) {
     return divAndConHelper(points);
 }
 
-
+/**
+ * @brief Driver function
+ */
 int main() {
     int n, dim;
     string input;

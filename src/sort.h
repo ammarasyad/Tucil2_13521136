@@ -98,6 +98,13 @@ int partition(vector<Point>& points, int start, int end, bool (*compare)(const P
     return index;
 }
 
+/**
+ * Quick sort algorithm
+ * @param points
+ * @param start
+ * @param end
+ * @param compare
+ */
 void quickSort(vector<Point>& points, int start, int end, bool (*compare)(const Point&, const Point&, bool)) {
     if (start < end) {
         int p = partition(points, start, end, compare);
