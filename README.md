@@ -11,7 +11,7 @@ Requirement
 Cara Penggunaan
 -----
 1. Install GNUPlot (pastikan ditambahkan ke PATH)
-2. Jalankan exe
+2. Jalankan binary
 3. Masukkan sesuai input yang diminta
 4. Hasil akan ditampilkan di terminal
 5. Jika 3D maka bisa pilih untuk menampilkan plot atau tidak
