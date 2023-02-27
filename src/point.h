@@ -21,6 +21,15 @@ public:
     [[nodiscard]] double getCoordinate(int i) const { return coordinates[i]; }
     [[nodiscard]] const vector<double>& getCoordinates() const { return coordinates; }
 
+    bool operator==(const Point& p) const {
+        for (int i = 0; i < dimension; i++) {
+            if (coordinates[i] != p.coordinates[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     Point operator+(const Point& p) const {
         vector<double> newCoordinates(dimension);
         for (int i = 0; i < dimension; i++) {

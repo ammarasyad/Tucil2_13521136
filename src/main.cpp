@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
-#include "matplot/matplot.h"
 #include "point.h"
 #include "rand.h"
 #include "sort.h"
+#include "plot.h"
 
 using namespace std;
+
+const int LEAF_SIZE = 64; // leaf size for divide and conquer, increase for more operations but less time, most optimal in my testing is 64
 
 inline bool compareX(const Point& p1, const Point& p2, bool equals) {
     return equals ? p1.getCoordinate(0) <= p2.getCoordinate(0) : p1.getCoordinate(0) < p2.getCoordinate(0);
@@ -33,60 +35,8 @@ Tuple<Point, Point> bruteForce(const vector<Point>& points) {
     return {p1, p2};
 }
 
-Tuple<Point, Point> closestToStrip(const vector<Point>& strip, double minDist) {
-    Point p1 = strip[0];
-    Point p2 = strip[1];
-    for (int i = 0; i < strip.size(); i++) {
-        for (int j = i + 1; j < strip.size() && (strip[j].getCoordinate(1) - strip[i].getCoordinate(1)) < minDist; j++) {
-            double distIJ = dist(strip[i], strip[j]);
-            if (distIJ < minDist) {
-                minDist = distIJ;
-                p1 = strip[i];
-                p2 = strip[j];
-            }
-        }
-    }
-    return {p1, p2};
-}
-
-Tuple<Point, Point> closestPair(vector<Point>& pointsX, vector<Point>& pointsY, int n) {
-    if (n <= 10) {
-        return bruteForce(pointsX);
-    }
-
-    int mid = n / 2 - 1;
-    Point midPoint = pointsX[mid];
-
-    vector<Point> pointsYL;
-    vector<Point> pointsYR;
-    for (const auto& a : pointsY) {
-        if (a.getCoordinate(0) <= midPoint.getCoordinate(0)) {
-            pointsYL.push_back(a);
-        } else {
-            pointsYR.push_back(a);
-        }
-    }
-    vector<Point> pointsYM(pointsYL.begin() + pointsYL.size() / 2, pointsYL.end());
-    Tuple<Point, Point> left = closestPair(pointsX, pointsYL, mid);
-    Tuple<Point, Point> right = closestPair(pointsYM, pointsYR, n - mid);
-
-    double d1 = dist(left.first, right.first);
-    double d2 = dist(left.second, right.second);
-    double minDist = min(d1, d2);
-
-    vector<Point> strip;
-    for (int i = 0; i < n; i++) {
-        if (abs(pointsY[i].getCoordinate(0) - midPoint.getCoordinate(0)) < minDist) {
-            strip.push_back(pointsY[i]);
-        }
-    }
-
-    return closestToStrip(strip, minDist);
-}
-
-
 Tuple<Point, Point> divAndConHelper(vector<Point>& points) {
-    if (points.size() <= 5) {
+    if (points.size() <= LEAF_SIZE) {
         return bruteForce(points);
     }
     const int dim = points[0].getDimension();
@@ -131,9 +81,7 @@ Tuple<Point, Point> divAndConHelper(vector<Point>& points) {
             }
         }
     }
-
     return {p5, p6};
-
 }
 
 Tuple<Point, Point> divideAndConquer(vector<Point>& points) {
@@ -143,26 +91,34 @@ Tuple<Point, Point> divideAndConquer(vector<Point>& points) {
     return divAndConHelper(points);
 }
 
-int main() {
-    int n;
-    cout << "Enter number of points (must be greater than or equal to 2): ";
-    cin >> n;
-    while (cin.fail() || n < 2) {
-        cin.clear();
-        cin.ignore(256, '\n');
-        cout << "Invalid input. Enter number of points: ";
-        cin >> n;
-    }
 
-    int dim;
-    cout << "Enter the dimension: ";
-    cin >> dim;
-    while (cin.fail() || dim < 2) {
-        cin.clear();
-        cin.ignore(256, '\n');
-        cout << "Invalid input. Enter number of points: ";
-        cin >> dim;
+int main() {
+    int n, dim;
+    string input;
+    cout << "Enter number of points (must be greater than or equal to 2): ";
+    while (true) {
+        getline(cin >> ws, input);
+        if (strtol(input.c_str(), nullptr, 10) < 2) {
+            cout << "Invalid input. Must be greater than or equal to 2: ";
+            getline(cin >> ws, input);
+        } else {
+            break;
+        }
     }
+    n = stoi(input);
+
+    cout << "Enter the dimension: ";
+    while (true) {
+        getline(cin >> ws, input);
+        auto in = strtol(input.c_str(), nullptr, 10);
+        if (in < 1 || in > 10) {
+            cout << "Invalid input. Must be from 1 to 10 (inclusive): ";
+            getline(cin >> ws, input);
+        } else {
+            break;
+        }
+    }
+    dim = stoi(input);
 
     vector<Point> points(n, Point(dim));
     for (auto& p : points) {
@@ -206,5 +162,19 @@ int main() {
     duration = chrono::duration<double, milli>(t2 - t1).count();
     cout << duration << " ms" << endl;
 
+    // Ask to save to file and plot
+    if (dim == 3){
+        cout << "Do you want to save the points to a file and plot them? (y/n): ";
+        getline(cin >> ws, input);
+        transform(input.begin(), input.end(), input.begin(), ::tolower);
+        if (input == "y" || input == "yes") {
+            saveToFile("points.txt", points, p1, p2);
+            startPlot("points.txt");
+        } else if (input == "n" || input == "no") {
+            cout << "Exiting..." << endl;
+        } else {
+            cout << "Invalid input. Exiting..." << endl;
+        }
+    }
     return 0;
 }
