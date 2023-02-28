@@ -1,12 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
-#include <algorithm>
 #include "point.h"
 #include "rand.h"
 #include "sort.h"
 #include "plot.h"
 #include "getcpu.h"
+
+#ifdef linux
+#include <algorithm>
+#endif
 
 using namespace std;
 
