@@ -1,10 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
+#include <algorithm>
 #include "point.h"
 #include "rand.h"
 #include "sort.h"
 #include "plot.h"
+#include "getcpu.h"
 
 using namespace std;
 
@@ -145,6 +147,10 @@ int main() {
     cout << "Dimension: " << points[0].getDimension() << endl;
     cout << "Number of points: " << points.size() << endl;
 
+    cout << endl;
+    cout << "Processor: " << getProcessorInfo() << endl;
+    cout << endl;
+
     cout << "--------------------------------------------" << endl;
     cout << "Brute force algorithm" << endl;
     cout << "--------------------------------------------" << endl;
@@ -155,7 +161,7 @@ int main() {
 
     cout << "Number of operations: " << operations << endl;
     cout << "Closest pair of points: " << p1 << " and " << p2 << endl;
-    cout << "Distance: " << dist(p1, p2) << endl;
+    cout << "Distance: " << dist(p1, p2) << endl << endl;
 
     auto duration = chrono::duration<double, milli>(t2 - t1).count();
     cout << duration << " ms" << endl;
@@ -172,7 +178,7 @@ int main() {
 
     cout << "Number of operations: " << operations << endl;
     cout << "Closest pair of points: " << p3 << " and " << p4 << endl;
-    cout << "Distance: " << dist(p3, p4) << endl;
+    cout << "Distance: " << dist(p3, p4) << endl << endl;
 
     duration = chrono::duration<double, milli>(t2 - t1).count();
     cout << duration << " ms" << endl;
