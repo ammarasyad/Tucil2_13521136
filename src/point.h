@@ -1,8 +1,6 @@
 #ifndef TUCIL2_13521136_POINT_H
 #define TUCIL2_13521136_POINT_H
 
-// 3D point
-
 #include <iostream>
 #include <string>
 #include <cmath>
