@@ -117,7 +117,6 @@ int main() {
         getline(cin >> ws, input);
         if (strtol(input.c_str(), nullptr, 10) < 2) {
             cout << "Invalid input. Must be greater than or equal to 2: ";
-            getline(cin >> ws, input);
         } else {
             break;
         }
@@ -130,7 +129,6 @@ int main() {
         auto in = strtol(input.c_str(), nullptr, 10);
         if (in < 1 || in > 10) {
             cout << "Invalid input. Must be from 1 to 10 (inclusive): ";
-            getline(cin >> ws, input);
         } else {
             break;
         }
