@@ -14,4 +14,4 @@ Cara Penggunaan
 2. Jalankan binary
 3. Masukkan sesuai input yang diminta
 4. Hasil akan ditampilkan di terminal
-5. Jika 3D maka bisa pilih untuk menampilkan plot atau tidak
+5. Jika 3D maka bisa pilih untuk menampilkan plot atau tidak **(Tidak bisa dilakukan plotting dalam Linux)**
